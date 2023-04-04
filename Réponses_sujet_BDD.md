@@ -4,6 +4,10 @@ author: WASSON Baptiste, AOULAD-TAYAB Karim
 geometry: margin=2cm
 ---
 
+<div align="right">
+    <img src="images/Logo-IUT-de-Lille_2022.png" width="200">
+</div>
+
 *Pour éxécuter correctement le fichier sql '[importation.sql](./sql/importation.sql)', veuillez éxecuter la commande depuis la racine du projet soit:*
 
 ```
@@ -98,21 +102,26 @@ On envisage d’importer les données en créeant une table dans le base Postgre
 
 MCD correspondant:
 
+- Un athlète représente une équipe
+- Une équipe est issue d'une région (composé du code de la région, du nom, info supplémentaire (notes))
+- Un athlète a participé des éditions données pour des épreuves (composé de l'évènement, du genre dédié à l'évenement et du sport associé à l'évènement) donnés dans lesquelles il a éventuellement eu des médailles
+- Ce qui fait au total 6 entités (5 entités dont 2 associations hiérarchiques + 1 association maillée (participe) car c'est une ternaire associant Athlete, Epreuve et Edition)
+
 ![MCD du sujet](mcd/mcd.png)
 
 MLD associé:
 
-- Equipe(<u>**noc**</u>, nom_pays, notes)
-  
-- Sport(<u>**nom_sport**</u>)
-  
-- Athlete(<u>**ano**</u>, nom, sexe, age, taille, poids, **#equipe**, **#sport**)
+- Region(<u>**noc**</u>, nom_pays, notes)
 
-- Lieu(<u>**ville**</u>)
+- Equipe(<u>**nom_equipe**</u>, **#noc**)
 
-- Edition(<u>**année**</u>, <u>**saison**</u>)
+- Athlete(<u>**ano**</u>, nom, sexe, age, taille, poids, **#equipe**)
 
-- participe(<u>**#ano**</u>, <u>**#ville**</u>, <u>**#année**</u>, <u>**#saison**</u>, evenement, médaille)
+- Edition(<u>**année**</u>, <u>**saison**</u>, ville)
+
+- Epreuve(<u>**evenement**</u>, <u>**nom_sport**</u>, <u>**genre**</u>)
+
+- participe(<u>**#ano**</u>, <u>**#evenement**</u>, <u>**#nom_sport**</u>, <u>**#genre**</u>, <u>**#annee**</u>, <u>**#saison**</u>, medaille)
 
 > 1. Quelle taille en octet fait le fichier récupéré ?
 
@@ -146,15 +155,15 @@ from (
     union
     SELECT pg_total_relation_size('import_noc')
     union
-    SELECT pg_total_relation_size('equipe')
+    SELECT pg_total_relation_size('region')
     union
-    SELECT pg_total_relation_size('sport')
+    SELECT pg_total_relation_size('equipe')
     union
     SELECT pg_total_relation_size('athlete')
     union
-    SELECT pg_total_relation_size('lieu')
-    union
     SELECT pg_total_relation_size('edition')
+    union
+    SELECT pg_total_relation_size('epreuve')
     union
     SELECT pg_total_relation_size('participe')
     ) as union_tables;
@@ -178,8 +187,3 @@ for n in $(stat *.csv | grep "Size" | cut -d ' ' -f 4); do
 done
 echo $num
 ```
-
-TODO:
-- [ ] Import manquants dans 'import_noc'
-- [ ] Pb Création de la table 'Athlete' (pb type colonnes et contrainte d'intégrité)
-- [ ] Question 3 et 4 (Exo 4)

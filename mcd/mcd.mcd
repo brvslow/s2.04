@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?PowerDesigner AppLocale="UTF16" ID="{ED4082AC-9CAA-4186-B21D-2B266151A44B}" Label="" LastModificationDate="1680605245" Name="ModeleConceptuelDonnees_1" Objects="57" Symbols="15" Type="{1E597170-9350-11D1-AB3C-0020AF71E433}" signature="CDM_DATA_MODEL_XML" version="15.1.0.2850"?>
+<?PowerDesigner AppLocale="UTF16" ID="{ED4082AC-9CAA-4186-B21D-2B266151A44B}" Label="" LastModificationDate="1680631713" Name="ModeleConceptuelDonnees_1" Objects="57" Symbols="15" Type="{1E597170-9350-11D1-AB3C-0020AF71E433}" signature="CDM_DATA_MODEL_XML" version="15.1.0.2850"?>
 <!-- Veuillez ne pas modifier ce fichier -->
 
 <Model xmlns:a="attribute" xmlns:c="collection" xmlns:o="object">
@@ -1253,7 +1253,7 @@ CARD 0 Arial,8,N</a:FontList>
 <o:AssociationLinkSymbol Id="o18">
 <a:CreationDate>1680592757</a:CreationDate>
 <a:ModificationDate>1680605245</a:ModificationDate>
-<a:Rect>((-18187,15249), (-14512,21075))</a:Rect>
+<a:Rect>((-18187,15249), (-14550,21075))</a:Rect>
 <a:ListOfPoints>((-16312,21075),(-16312,18536),(-18187,18536),(-18187,15249))</a:ListOfPoints>
 <a:CornerStyle>1</a:CornerStyle>
 <a:ArrowStyle>0</a:ArrowStyle>
@@ -1649,11 +1649,12 @@ LABL 0 Arial,8,N</a:FontList>
 <a:Code>IDENTIFIANT_1</a:Code>
 <a:CreationDate>1680591877</a:CreationDate>
 <a:Creator>iutinfo</a:Creator>
-<a:ModificationDate>1680591924</a:ModificationDate>
-<a:Modifier>iutinfo</a:Modifier>
+<a:ModificationDate>1680631713</a:ModificationDate>
+<a:Modifier>user</a:Modifier>
 <c:Identifier.Attributes>
 <o:EntityAttribute Ref="o55"/>
 <o:EntityAttribute Ref="o56"/>
+<o:EntityAttribute Ref="o57"/>
 </c:Identifier.Attributes>
 </o:Identifier>
 </c:Identifiers>
@@ -1669,7 +1670,7 @@ LABL 0 Arial,8,N</a:FontList>
 <a:Modifier>iutinfo</a:Modifier>
 <a:BaseAttribute.Mandatory>1</a:BaseAttribute.Mandatory>
 <c:DataItem>
-<o:DataItem Ref="o57"/>
+<o:DataItem Ref="o58"/>
 </c:DataItem>
 </o:EntityAttribute>
 <o:EntityAttribute Id="o55">
@@ -1680,15 +1681,16 @@ LABL 0 Arial,8,N</a:FontList>
 <a:Modifier>iutinfo</a:Modifier>
 <a:BaseAttribute.Mandatory>1</a:BaseAttribute.Mandatory>
 <c:DataItem>
-<o:DataItem Ref="o58"/>
+<o:DataItem Ref="o59"/>
 </c:DataItem>
 </o:EntityAttribute>
-<o:EntityAttribute Id="o59">
+<o:EntityAttribute Id="o57">
 <a:ObjectID>E90F7462-C216-494D-96BF-D2F10654191B</a:ObjectID>
 <a:CreationDate>1680604939</a:CreationDate>
 <a:Creator>user</a:Creator>
-<a:ModificationDate>1680604945</a:ModificationDate>
+<a:ModificationDate>1680631713</a:ModificationDate>
 <a:Modifier>user</a:Modifier>
+<a:BaseAttribute.Mandatory>1</a:BaseAttribute.Mandatory>
 <c:DataItem>
 <o:DataItem Ref="o60"/>
 </c:DataItem>
@@ -1922,7 +1924,7 @@ LABL 0 Arial,8,N</a:FontList>
 <a:DataType>VA25</a:DataType>
 <a:Length>25</a:Length>
 </o:DataItem>
-<o:DataItem Id="o57">
+<o:DataItem Id="o58">
 <a:ObjectID>5C438367-BE9B-479B-AFB5-762190029D58</a:ObjectID>
 <a:Name>evenement</a:Name>
 <a:Code>EVENEMENT</a:Code>
@@ -1933,7 +1935,7 @@ LABL 0 Arial,8,N</a:FontList>
 <a:DataType>VA150</a:DataType>
 <a:Length>150</a:Length>
 </o:DataItem>
-<o:DataItem Id="o58">
+<o:DataItem Id="o59">
 <a:ObjectID>906095BF-71A4-428E-9CD0-6DDA83F72A4D</a:ObjectID>
 <a:Name>nom_sport</a:Name>
 <a:Code>NOM_SPORT</a:Code>
