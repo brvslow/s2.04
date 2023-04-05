@@ -28,7 +28,7 @@ delete from import_athletes;
 -- On importe les données du CSV dans la table import_athletes avec quelques options:
 --  On précise le format CSV:
 --      - Le paramètre 'header' permet de ne pas copier la première ligne du CSV (ligne des colonnes)
---      - Le paramètre 'escape' permet d'échapper les double guillemets pour intérpreter l'id comme un entier
+--      - Le paramètre 'quote' permet de prendre en considération les guillemets dans chaque colonne dans les lignes du CSV, utile pour interpréter l'id comme un entier
 --      - Le paramètre 'delimiter' détermine avec quel caractère on délimite chaque colonne
 --      - Le paramètre 'null as' permet de prendre en charge les valeurs nulles pour éviter les problèmes de type (ici representé par 'NA')
 \copy import_athletes from 'csv/athlete_events.csv' with csv header quote '"' delimiter ',' null as 'NA';
