@@ -1,7 +1,7 @@
+<img src="images/Logo-IUT-de-Lille_2022.png" width="200" align="right">
+
 # s2.04 - Exploitation BDD
 par WASSON Baptiste, AOULAD-TAYAB Karim
-
-<img src="images/Logo-IUT-de-Lille_2022.png" width="200" align="right">
 
 *Pour éxécuter correctement le fichier sql '[importation.sql](./sql/importation.sql)', veuillez éxecuter la commande depuis la racine du projet soit:*
 
