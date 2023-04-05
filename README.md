@@ -1,12 +1,7 @@
----
-title: Réponses au sujet de la SAé S2.04 "Exploration de BDD"
-author: WASSON Baptiste, AOULAD-TAYAB Karim
-geometry: margin=2cm
----
+# s2.04 - Exploitation BDD
+par WASSON Baptiste, AOULAD-TAYAB Karim
 
-<div align="right">
-    <img src="images/Logo-IUT-de-Lille_2022.png" width="200">
-</div>
+<img src="images/Logo-IUT-de-Lille_2022.png" width="200" align="right">
 
 *Pour éxécuter correctement le fichier sql '[importation.sql](./sql/importation.sql)', veuillez éxecuter la commande depuis la racine du projet soit:*
 
@@ -17,7 +12,7 @@ but1=> \i sql/importation.sql
 ##### Compilation du Markdown
 
 ```
-pandoc --toc -t pdf -f markdown Réponses_sujet_BDD.md -o Réponses_sujet_BDD.pdf
+pandoc --toc -t pdf -f markdown README.md -o README.pdf
 ```
 
 ## Exercice 1
