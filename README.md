@@ -102,6 +102,8 @@ MCD correspondant:
 - Un athlète a participé des éditions données pour des épreuves (composé de l'évènement, du genre dédié à l'évenement et du sport associé à l'évènement) donnés dans lesquelles il a éventuellement eu des médailles
 - Ce qui fait au total 6 entités (5 entités dont 2 associations hiérarchiques + 1 association maillée (participe) car c'est une ternaire associant Athlete, Epreuve et Edition)
 
+(*Dans l'entité Epreuve il y a un attribut genre car on décompose l'evenement en [nom_evenement] [genre] [sport]*)
+
 ![MCD du sujet](mcd/mcd.png)
 
 MLD associé:
