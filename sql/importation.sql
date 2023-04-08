@@ -215,3 +215,31 @@ FROM
 
 ALTER TABLE Epreuve
     ADD CONSTRAINT pk_epreuve PRIMARY KEY (evenement, genre, nom_sport);
+
+-----------------
+
+-- participe
+--
+-- Work in progress...
+-- create table if not exists participe(ano, evenement, genre, nom_sport, annee, saison, medaille)
+--     as select id, e.evenement, e.genre, e.nom_sport, year, season, medal
+--         from import_athletes, epreuve as e
+--         where event = e.nom_sport || ' ' || case e.genre
+--                 when 'Men' then 'Men''s'
+--                 when 'Women' then 'Women''s'
+--                 else 'Mixed'
+--             end || ' ' || case
+--                 when e.evenement = '' then e.nom_sport
+--                 else e.evenement end;
+
+-- alter table participe drop constraint if exists pk_participe;
+-- alter table participe drop constraint if exists fk_athlete;
+-- alter table participe drop constraint if exists fk_epreuve;
+-- alter table participe drop constraint if exists fk_edition;
+
+-- alter table participe add constraint pk_participe primary key(ano, evenement, annee, saison);
+-- alter table participe add constraint fk_athlete foreign key(ano) references Athlete(ano);
+-- alter table participe add constraint fk_epreuve foreign key(evenement, nom_sport) references Epreuve(evenement, nom_sport);
+-- alter table participe add constraint fk_edition foreign key(annee, saison) references Edition(annee, saison);
+
+-- drop table import_athletes, import_noc;

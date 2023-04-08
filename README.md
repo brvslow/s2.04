@@ -1,7 +1,8 @@
+# s2.04 - Exploitation BDD
+
 <img src="images/Logo-IUT-de-Lille_2022.png" width="200" align="right">
 
-# s2.04 - Exploitation BDD
-par WASSON Baptiste, AOULAD-TAYAB Karim
+## Introduction
 
 *Pour éxécuter correctement le fichier sql '[importation.sql](./sql/importation.sql)', veuillez éxecuter la commande depuis la racine du projet soit:*
 
@@ -9,10 +10,15 @@ par WASSON Baptiste, AOULAD-TAYAB Karim
 but1=> \i sql/importation.sql
 ```
 
-##### Compilation du Markdown
+**Compilation du Markdown**
+
+Le fichier 'metadata.yml' inclut les données au-delà du fichier Markdown:
+
+- Le titre du document
+- Les noms des auteurs
 
 ```
-pandoc --toc -t pdf -f markdown README.md -o README.pdf
+pandoc --toc --metadata-file metadata.yml --template=template/eisvogel.tex -t pdf -f markdown README.md -o README.pdf
 ```
 
 ## Exercice 1
