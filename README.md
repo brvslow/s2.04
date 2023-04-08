@@ -12,6 +12,8 @@ but1=> \i sql/importation.sql
 
 **Compilation du Markdown**
 
+*Il faut un moteur PDF permetant de générer le pdf au préalable, tel que **pdflatex**.*
+
 Le fichier 'metadata.yml' inclut les données au-delà du fichier Markdown:
 
 - Le titre du document
