@@ -4,6 +4,8 @@
 
 ## Introduction
 
+*Lien du repos git: [github.com/brvslow/s2.04](https://github.com/brvslow/s2.04)*
+
 *Pour éxécuter correctement le fichier sql '[importation.sql](./sql/importation.sql)', veuillez éxecuter la commande depuis la racine du projet soit:*
 
 ```
@@ -176,7 +178,7 @@ from (
 
 > 4. Quelle taille en octet fait la somme des tailles des fichiers exportés correspondant à ces tables ?
 
-Je n'ai pas les droits pour réaliser une exportation
+Nous n'avons pas les droits pour réaliser une exportation
 
 ```
 COPY equipe TO 'equipe.csv'  WITH DELIMITER ',' CSV HEADER;
