@@ -3,6 +3,8 @@
 -- Q1
 DROP TABLE IF EXISTS import_athletes;
 
+\echo 'Création de la table import_athletes...'
+
 -- L'option "if not exists" permet de ne pas recréer la table si elle existe déjà.
 CREATE TABLE  import_athletes(
     id int,
@@ -23,6 +25,8 @@ CREATE TABLE  import_athletes(
 );
 
 -- Q2
+\echo 'Remplissage de la table import_athletes via le fichier csv athletes_events.csv...'
+
 -- On importe les données du CSV dans la table import_athletes avec quelques options:
 --  On précise le format CSV:
 --      - Le paramètre 'header' permet de ne pas copier la première ligne du CSV (ligne des colonnes)
@@ -32,6 +36,8 @@ CREATE TABLE  import_athletes(
 \copy import_athletes from 'csv/athlete_events.csv' with csv header quote '"' delimiter ',' null as 'NA';
 
 -- Q3
+\echo 'Supression des lignes d''avant 1920 ou correspondant aux compétitions artistiques...'
+
 DELETE FROM import_athletes
 WHERE year < 1920
     OR sport = 'Art Competitions';
@@ -39,15 +45,19 @@ WHERE year < 1920
 -- Q4
 DROP TABLE IF EXISTS import_noc;
 
+\echo 'Création de la table import_noc'
 CREATE TABLE IF NOT EXISTS import_noc(
     noc char(3),
     region varchar(50),
     notes varchar(50)
 );
 
+\echo 'Remplissage de la table import_noc via le fichier csv noc_regions.csv...'
+
 \copy import_noc from 'csv/noc_regions.csv' with csv header delimiter ',' null as 'NA';
 
 -- Ajout des pays manquants dans 'import_noc'
+\echo 'Ajout des pays manquants dans import_noc...'
 INSERT INTO import_noc SELECT DISTINCT
     a.noc,
     NULL AS region,
@@ -70,8 +80,11 @@ WHERE
 
 -- Region
 --
+\echo 'Ventilation des données en créant plusieurs tables suivant le MLD qui a été conçu...'
+
 DROP TABLE IF EXISTS Region CASCADE;
 
+\echo 'Création de la table Region...'
 CREATE TABLE Region(noc, nom_pays, notes) AS
 SELECT
     noc,
@@ -81,6 +94,8 @@ FROM
     import_noc;
 
 -- Modification de la table 'Region' en y ajoutant une contrainte d'unicité (clé primaire) pointant vers la colonne noc
+\echo 'Création des contraintes d''unicité et d''intégrité réferentielle pour Region...'
+
 ALTER TABLE Region
     ADD CONSTRAINT pk_region PRIMARY KEY (noc);
 
@@ -89,6 +104,8 @@ ALTER TABLE Region
 -- Equipe
 --
 DROP TABLE IF EXISTS Equipe CASCADE;
+
+\echo 'Création de la table Equipe...'
 
 CREATE TABLE Equipe(nom_equipe, noc, nom_pays) AS
 SELECT DISTINCT ON (a.team) -- La syntaxe 'distinct on (colonne) colonne' permet de supprimer les doublons d'une seule colonne
@@ -100,6 +117,8 @@ FROM
     import_noc AS n
 WHERE
     a.noc = n.noc;
+
+\echo 'Création des contraintes d''unicité et d''intégrité réferentielle pour Equipe...'
 
 ALTER TABLE Equipe
     ADD CONSTRAINT pk_equipe PRIMARY KEY (nom_equipe);
@@ -113,6 +132,8 @@ ALTER TABLE Equipe
 --
 DROP TABLE IF EXISTS Edition CASCADE;
 
+\echo 'Création de la table Edition...'
+
 CREATE TABLE Edition(annee, saison) AS
 SELECT DISTINCT ON (year, season)
     year,
@@ -120,6 +141,8 @@ SELECT DISTINCT ON (year, season)
     city
 FROM
     import_athletes;
+
+\echo 'Création des contraintes d''unicité et d''intégrité réferentielle pour Edition...'
 
 ALTER TABLE Edition
     ADD CONSTRAINT pk_edition PRIMARY KEY (annee, saison);
@@ -135,6 +158,8 @@ ALTER TABLE Edition
 -- Pour vérifier que la requête supprime bien tous les doublons, on peut se référer au fichier 'requetes.sql' à la question 4, on devait compter le nombre d'athlètes différents dans la base. Le nombre doit être donc le même dans la table 'Athlete'
 DROP TABLE IF EXISTS Athlete CASCADE;
 
+\echo 'Création de la table Athlete...'
+
 CREATE TABLE Athlete(ano, nom, sexe, age, taille, poids, equipe) AS
 SELECT DISTINCT ON (t1.id) -- On supprime les doublons de la colonne id pour arriver au même nobmre d'athlètes que dans la requête renseignée dans 'requetes.sql'
     t1.id,
@@ -146,6 +171,8 @@ SELECT DISTINCT ON (t1.id) -- On supprime les doublons de la colonne id pour arr
     t1.team
 FROM
     import_athletes AS t1;
+
+\echo 'Création des contraintes d''unicité et d''intégrité réferentielle pour Athlete...'
 
 ALTER TABLE Athlete
     ADD CONSTRAINT pk_athlete PRIMARY KEY (ano);
@@ -162,6 +189,8 @@ ALTER TABLE Athlete
 -- Epreuve
 --
 DROP TABLE IF EXISTS Epreuve CASCADE;
+
+\echo 'Création de la fonction extract_genre_event pour extraire le genre de l''evenement...'
 
 -- Déclaration d'une fonction permettant d'extraire le genre d'un évenement donné
 -- On décompose l'évenement en 3 parties pour plus de flexiblité, modélisé par 3 colonnes:
@@ -182,6 +211,8 @@ CREATE OR REPLACE FUNCTION extract_genre_event(event text)
         END
 $$
 LANGUAGE sql; -- On renseigne à PostgreSQL que le langage utilisé est le SQL standard
+
+\echo 'Création de la table Epreuve...'
 
 CREATE TABLE Epreuve(evenement, genre, nom_sport) AS
 SELECT DISTINCT
@@ -213,6 +244,8 @@ SELECT DISTINCT
 FROM
     import_athletes AS a;
 
+\echo 'Création des contraintes d''unicité et d''intégrité réferentielle pour Epreuve...'
+
 ALTER TABLE Epreuve
     ADD CONSTRAINT pk_epreuve PRIMARY KEY (evenement, genre, nom_sport);
 
@@ -221,6 +254,8 @@ ALTER TABLE Epreuve
 -- participe
 --
 DROP TABLE IF EXISTS participe CASCADE;
+
+\echo 'Création de la table participe...'
 
 CREATE TABLE IF NOT EXISTS participe(ano, evenement, genre, nom_sport, annee, saison, medaille)
     AS SELECT id, e.evenement, e.genre, e.nom_sport, year, season, medal
@@ -232,6 +267,8 @@ CREATE TABLE IF NOT EXISTS participe(ano, evenement, genre, nom_sport, annee, sa
             END || ' ' || case
                 WHEN e.evenement = '' then e.nom_sport
                 ELSE e.evenement end;
+
+\echo 'Création des contraintes d''unicité et d''intégrité réferentielle pour participe...'
 
 ALTER TABLE participe ADD CONSTRAINT pk_participe PRIMARY KEY(ano, evenement, genre, nom_sport, annee, saison);
 ALTER TABLE participe ADD CONSTRAINT fk_athlete FOREIGN KEY(ano) references Athlete(ano);
