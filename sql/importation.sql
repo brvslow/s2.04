@@ -187,14 +187,14 @@ CREATE TABLE Epreuve(evenement, genre, nom_sport) AS
 SELECT DISTINCT
     -- On appelle trim() à nouveau du au 1er replace()
     trim(
-        -- On cast explicitement la fonction en varchar(150) car la fonction retourne une chaîne de type text (retourner un varchar(150) dans la fonction en fonctionne pas)
+        -- On cast explicitement la fonction en varchar(150) car la fonction retourne une chaîne de type text (retourner un varchar(150) dans la fonction extract_genre_event() ne fonctionne pas)
         cast(
             -- On supprime le genre de l'evenement
             replace(
                 -- On supprime le sport de l'evenement
-                replace(a.event, a.sport, ''),
+                overlay(a.event placing '' from 1 for length(a.sport)),
                 -- On supprime les espaces autour avec trim() après du à l'éxecution de la fonction replace
-                extract_genre_event(trim(replace(a.event, a.sport, ''))),
+                extract_genre_event(trim(overlay(a.event placing '' from 1 for length(a.sport)))),
                 ''
             )
             AS varchar(150)
@@ -202,12 +202,12 @@ SELECT DISTINCT
 
     -- On vérifie si le genre est 'Mixed' pour ne pas appeler left(), fonction qui permettra de supprimer les 2 derniers caractères de 'Men''s' et 'Women''s', on ne veut pas ça pour 'Mixed' sinon il renverra 'Mix'
     cast(
-            CASE extract_genre_event(trim(replace(a.event, a.sport, '')))
+            CASE extract_genre_event(trim(overlay(a.event placing '' from 1 for length(a.sport))))
                 -- Si le genre est 'Mixed', on retourne le genre tel qu'il est actuellement
-                WHEN 'Mixed' THEN extract_genre_event(trim(replace(a.event, a.sport, '')))
-                ELSE LEFT ( extract_genre_event(trim(replace(a.event, a.sport, ''))),
+                WHEN 'Mixed' THEN extract_genre_event(trim(overlay(a.event placing '' from 1 for length(a.sport))))
+                ELSE LEFT ( extract_genre_event(trim(overlay(a.event placing '' from 1 for length(a.sport)))),
                             -- On prend toute la taille de la chaine moins les 2 dernieres pour s'arrêter avant ces 2 derniers caractères
-                            length(extract_genre_event(trim(replace(a.event, a.sport, '')))) - 2)
+                            length(extract_genre_event(trim(overlay(a.event placing '' from 1 for length(a.sport))))) - 2)
         END AS varchar(10)) AS genre,
     a.sport
 FROM
@@ -220,26 +220,25 @@ ALTER TABLE Epreuve
 
 -- participe
 --
--- Work in progress...
--- create table if not exists participe(ano, evenement, genre, nom_sport, annee, saison, medaille)
---     as select id, e.evenement, e.genre, e.nom_sport, year, season, medal
---         from import_athletes, epreuve as e
---         where event = e.nom_sport || ' ' || case e.genre
---                 when 'Men' then 'Men''s'
---                 when 'Women' then 'Women''s'
---                 else 'Mixed'
---             end || ' ' || case
---                 when e.evenement = '' then e.nom_sport
---                 else e.evenement end;
+CREATE TABLE IF NOT EXISTS participe(ano, evenement, genre, nom_sport, annee, saison, medaille)
+    AS SELECT id, e.evenement, e.genre, e.nom_sport, year, season, medal
+        FROM import_athletes, epreuve as e
+        WHERE event = e.nom_sport || ' ' || CASE e.genre
+                WHEN 'Men' then 'Men''s'
+                WHEN 'Women' then 'Women''s'
+                ELSE 'Mixed'
+            END || ' ' || case
+                WHEN e.evenement = '' then e.nom_sport
+                ELSE e.evenement end;
 
--- alter table participe drop constraint if exists pk_participe;
--- alter table participe drop constraint if exists fk_athlete;
--- alter table participe drop constraint if exists fk_epreuve;
--- alter table participe drop constraint if exists fk_edition;
+ALTER TABLE participe DROP CONSTRAINT if exists pk_participe;
+ALTER TABLE participe DROP CONSTRAINT if exists fk_athlete;
+ALTER TABLE participe DROP CONSTRAINT if exists fk_epreuve;
+ALTER TABLE participe DROP CONSTRAINT if exists fk_edition;
 
--- alter table participe add constraint pk_participe primary key(ano, evenement, annee, saison);
--- alter table participe add constraint fk_athlete foreign key(ano) references Athlete(ano);
--- alter table participe add constraint fk_epreuve foreign key(evenement, nom_sport) references Epreuve(evenement, nom_sport);
--- alter table participe add constraint fk_edition foreign key(annee, saison) references Edition(annee, saison);
+ALTER TABLE participe ADD CONSTRAINT pk_participe PRIMARY KEY(ano, evenement, genre, nom_sport, annee, saison);
+ALTER TABLE participe ADD CONSTRAINT fk_athlete FOREIGN KEY(ano) references Athlete(ano);
+ALTER TABLE participe ADD CONSTRAINT fk_epreuve FOREIGN KEY(evenement, genre, nom_sport) references Epreuve(evenement, genre, nom_sport);
+ALTER TABLE participe ADD CONSTRAINT fk_edition FOREIGN KEY(annee, saison) references Edition(annee, saison);
 
--- drop table import_athletes, import_noc;
+drop table import_athletes, import_noc;
