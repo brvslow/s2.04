@@ -220,6 +220,8 @@ ALTER TABLE Epreuve
 
 -- participe
 --
+DROP TABLE IF EXISTS participe CASCADE;
+
 CREATE TABLE IF NOT EXISTS participe(ano, evenement, genre, nom_sport, annee, saison, medaille)
     AS SELECT id, e.evenement, e.genre, e.nom_sport, year, season, medal
         FROM import_athletes, epreuve as e
@@ -231,14 +233,7 @@ CREATE TABLE IF NOT EXISTS participe(ano, evenement, genre, nom_sport, annee, sa
                 WHEN e.evenement = '' then e.nom_sport
                 ELSE e.evenement end;
 
-ALTER TABLE participe DROP CONSTRAINT if exists pk_participe;
-ALTER TABLE participe DROP CONSTRAINT if exists fk_athlete;
-ALTER TABLE participe DROP CONSTRAINT if exists fk_epreuve;
-ALTER TABLE participe DROP CONSTRAINT if exists fk_edition;
-
 ALTER TABLE participe ADD CONSTRAINT pk_participe PRIMARY KEY(ano, evenement, genre, nom_sport, annee, saison);
 ALTER TABLE participe ADD CONSTRAINT fk_athlete FOREIGN KEY(ano) references Athlete(ano);
 ALTER TABLE participe ADD CONSTRAINT fk_epreuve FOREIGN KEY(evenement, genre, nom_sport) references Epreuve(evenement, genre, nom_sport);
 ALTER TABLE participe ADD CONSTRAINT fk_edition FOREIGN KEY(annee, saison) references Edition(annee, saison);
-
-drop table import_athletes, import_noc;

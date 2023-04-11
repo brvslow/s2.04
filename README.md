@@ -32,22 +32,22 @@ cat <nom_fichier> | wc -l
 ```
 Soit:
 
-- **athlete_events.csv** : (271177 lignes)
+- **athlete_events.csv** : (271176 lignes)
 
 ```
-cat athlete_events.csv | wc -l
+cat csv/athlete_events.csv | wc -l
 ```
 
 - **noc_regions.csv** : (230 lignes)
 
 ```
-cat noc_regions.csv | tr "\r\n" "\n" | wc -l
+cat csv/noc_regions.csv | wc -l
 ```
 
 > Q2. Afficher uniquement la première ligne du fichier athlète
 
 ```
-cat athlete_events.csv | head -n 1
+cat csv/athlete_events.csv | head -n 1
 ```
 
 > Q3. Quel est le séparateur de champs ?
@@ -63,12 +63,12 @@ Une ligne représente les informations relatives à chaque participant (sauf la 
 - **athlete_events.csv** : (15 colonnes)
 
 ```
-cat athlete_events.csv | head -n 1 | tr ‘,‘ ‘\n’ | wc -l
+cat csv/athlete_events.csv | head -n 1 | tr ',' '\n' | wc -l
 ```
 
 - **noc_regions.csv** : (3 colonnes)
 ```
-cat noc_regions.csv | tr "\r\n" "\n" | head -n 1 | tr "," "\n" | wc -l
+cat csv/noc_regions.csv | tr "\r\n" "\n" | head -n 1 | tr "," "\n" | wc -l
 ```
 
 > Q6. Quelle colonne distingue les jeux d’été et d’hivers ?
@@ -79,14 +79,14 @@ La colonne « Season » représente les jeux d’été et d’hiver. C’est l
 
 - **athlete_events.csv** : (6 lignes)
 ```
-cat athlete_events.csv | grep "Jean-Claude Killy" | wc -l
+cat csv/athlete_events.csv | grep "Jean-Claude Killy" | wc -l
 ```
 
 > Q8. Quel encodage est utilisé pour ce fichier ?
 
 - **athlete_events.csv** : (us-ascii)
 ```
-file --mime-encoding athlete_events.csv
+file --mime-encoding csv/athlete_events.csv
 ```
 
 > Q9. Comment envisagez vous l’import de ces données ?
@@ -95,11 +95,11 @@ On envisage d’importer les données en créeant une table dans le base Postgre
 
 ## Exercice 2
 
-(cf '[importation.sql](./sql/importation.sql)')
+(cf '[sql/importation.sql](./sql/importation.sql)')
 
 ## Exercice 3
 
-(cf '[requetes.sql](./sql/requetes.sql)')
+(cf '[sql/requetes.sql](./sql/requetes.sql)')
 
 ## Exercice 4
 
@@ -151,10 +151,10 @@ but1=> SELECT pg_total_relation_size('import_noc');
 
 > 3. Quelle taille en octet fait la somme des tables créées ? 
 
-Taille totale: (... Mo)
+Taille totale: (98.164736 Mo)
 
 ```
-select sum(pg_total_relation_size) / 10^6
+select sum(pg_total_relation_size) / 10^6 as taille_totale
 from (
     SELECT pg_total_relation_size('import_athletes')
     union
@@ -176,19 +176,8 @@ from (
 
 > 4. Quelle taille en octet fait la somme des tailles des fichiers exportés correspondant à ces tables ?
 
+Je n'ai pas les droits pour réaliser une exportation
+
 ```
 COPY equipe TO 'equipe.csv'  WITH DELIMITER ',' CSV HEADER;
-COPY sport TO 'sport.csv'  WITH DELIMITER ',' CSV HEADER;
-COPY athlete TO 'athlete.csv'  WITH DELIMITER ',' CSV HEADER;
-COPY lieu TO 'lieu.csv'  WITH DELIMITER ',' CSV HEADER;
-COPY edition TO 'edition.csv'  WITH DELIMITER ',' CSV HEADER;
-COPY participe TO 'participe.csv'  WITH DELIMITER ',' CSV HEADER;
-```
-
-```sh
-num=0
-for n in $(stat *.csv | grep "Size" | cut -d ' ' -f 4); do
-    num=$(expr $num+$n)
-done
-echo $num
 ```
