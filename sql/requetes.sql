@@ -23,39 +23,39 @@ select count(medal) from import_athletes where medal = 'Gold';
 -- Output: 2
 select count(*) from import_athletes where name LIKE 'Carl Lewis%';
 
+
+
 -- Exercice 5
 -- Q1
 -- Output: 
-select r.region, count (*)
+select r.nom_pays, count (*) as nb_participation
 from participe as p, athlete as a, equipe as e, region as r
 where p.ano = a.ano
-and p.nom_equipe = e.nom_equipe
-and e.noc = r.noc
-and r.nom_payes = e.nom_equipe
-group by r.region
+and a.equipe = e.nom_equipe
+and r.noc = e.noc
+group by r.nom_pays
 order by count(*) desc;
 
 -- Q2
 -- Output: 
-select p.medaille, count (*)
+select r.nom_pays, count(*)
 from participe as p, athlete as a, equipe as e, region as r
 where medaille = 'Gold'
 and p.ano = a.ano
-and p.nom_equipe = e.nom_equipe
+and a.equipe = e.nom_equipe
 and e.noc = r.noc
-and r.nom_payes = e.nom_equipe
-group by r.region
+group by r.nom_pays
 order by count(*) desc;
 
 -- Q3
 -- Output: 
-select p.medaille, count (*)
+select r.nom_pays, count(*)
 from participe as p, athlete as a, equipe as e, region as r
-where p.ano = a.ano
-and p.nom_equipe = e.nom_equipe
+where medaille = 'Gold' or medaille = 'Bronze' or medaille = 'Silver'
+and p.ano = a.ano
+and a.equipe = e.nom_equipe
 and e.noc = r.noc
-and r.nom_payes = e.nom_equipe
-group by r.region
+group by r.nom_pays
 order by count(*) desc;
 
 -- Q4
