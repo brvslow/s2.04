@@ -1,69 +1,113 @@
 -- Exercice 3
 -- Q1
 -- Output: 15
-select count(*) from information_schema.columns where table_schema = user and table_name = 'import_athletes';
+SELECT
+    count(*)
+FROM
+    information_schema.columns
+WHERE
+    table_schema = USER
+    AND table_name = 'import_athletes';
 
 -- Q2
 -- Output: 255080
-select count(*) from import_athletes;
+SELECT count(*)
+FROM import_athletes;
 
 -- Q3
 -- Output: 230
-select count(noc) from import_noc;
+SELECT count(noc)
+FROM import_noc;
 
 -- Q4
 -- Output: 127575
-select count(distinct id) from import_athletes;
+SELECT count(DISTINCT id)
+FROM import_athletes;
 
 -- Q5
 -- Output: 12116
-select count(medal) from import_athletes where medal = 'Gold';
+SELECT count(medal)
+FROM import_athletes
+WHERE medal = 'Gold';
 
 -- Q6
 -- Output: 2
-select count(*) from import_athletes where name LIKE 'Carl Lewis%';
+SELECT count(*)
+FROM import_athletes
+WHERE name LIKE 'Carl Lewis%';
+
 
 
 
 -- Exercice 5
 -- Q1
--- Output: 
-select r.nom_pays, count (*) as nb_participation
-from participe as p, athlete as a, equipe as e, region as r
-where p.ano = a.ano
-and a.equipe = e.nom_equipe
-and r.noc = e.noc
-group by r.nom_pays
-order by count(*) desc;
+-- Output:
+SELECT
+    r.nom_pays,
+    count(*) AS nb_participation
+FROM
+    participe AS p,
+    athlete AS a,
+    equipe AS e,
+    region AS r
+WHERE
+    p.ano = a.ano
+    AND a.equipe = e.nom_equipe
+    AND r.noc = e.noc
+GROUP BY r.nom_pays
+ORDER BY count(*) DESC;
 
 -- Q2
--- Output: 
-select r.nom_pays, count(*)
-from participe as p, athlete as a, equipe as e, region as r
-where medaille = 'Gold'
-and p.ano = a.ano
-and a.equipe = e.nom_equipe
-and e.noc = r.noc
-group by r.nom_pays
-order by count(*) desc;
+-- Output:
+SELECT
+    r.nom_pays,
+    count(*) AS nb_medaille_Or
+FROM
+    participe AS p,
+    athlete AS a,
+    equipe AS e,
+    region AS r
+WHERE
+    medaille = 'Gold'
+    AND p.ano = a.ano
+    AND a.equipe = e.nom_equipe
+    AND e.noc = r.noc
+GROUP BY r.nom_pays
+ORDER BY count(*) DESC;
 
 -- Q3
--- Output: 
-select r.nom_pays, count(*)
-from participe as p, athlete as a, equipe as e, region as r
-where medaille = 'Gold' or medaille = 'Bronze' or medaille = 'Silver'
-and p.ano = a.ano
-and a.equipe = e.nom_equipe
-and e.noc = r.noc
-group by r.nom_pays
-order by count(*) desc;
+-- Output:
+SELECT
+    r.nom_pays,
+    count(*) AS nb_medaille
+FROM
+    participe AS p,
+    athlete AS a,
+    equipe AS e,
+    region AS r
+WHERE
+    medaille = 'Gold'
+    OR medaille = 'Bronze'
+    OR medaille = 'Silver'
+    AND p.ano = a.ano
+    AND a.equipe = e.nom_equipe
+    AND e.noc = r.noc
+GROUP BY r.nom_pays
+ORDER BY count(*) DESC;
 
 -- Q4
--- Output: 
-select a.ano, a.name, p.medaille
-from athlete as a join participe as p on (ano)
-group by a.id, a.name
-order by count(*) desc;
+-- Output:
+SELECT
+    a.ano,
+    a.nom,
+    count(p.medaille) AS nb_medaille_Athlete
+FROM
+    athlete AS a
+    JOIN participe AS p ON a.ano = p.ano
+GROUP BY
+    a.ano,
+    a.nom
+ORDER BY count(p.medaille) DESC;
 
 -- Q5
 -- Output:
