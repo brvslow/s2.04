@@ -85,46 +85,21 @@ WHERE
 DROP TABLE IF EXISTS Region CASCADE;
 
 \echo 'Création de la table Region...'
-CREATE TABLE Region(noc, nom_pays, notes) AS
-SELECT
-    noc,
-    region,
-    notes
+CREATE TABLE Region(noc, nom_equipe, nom_pays, notes) AS
+SELECT DISTINCT
+    n.noc,
+    a.team,
+    n.region,
+    n.notes
 FROM
-    import_noc;
+    import_noc as n, import_athletes as a
+WHERE a.noc = n.noc;
 
 -- Modification de la table 'Region' en y ajoutant une contrainte d'unicité (clé primaire) pointant vers la colonne noc
 \echo 'Création des contraintes d''unicité et d''intégrité réferentielle pour Region...'
 
 ALTER TABLE Region
-    ADD CONSTRAINT pk_region PRIMARY KEY (noc);
-
------------------
-
--- Equipe
---
-DROP TABLE IF EXISTS Equipe CASCADE;
-
-\echo 'Création de la table Equipe...'
-
-CREATE TABLE Equipe(nom_equipe, noc, nom_pays) AS
-SELECT DISTINCT ON (a.team) -- La syntaxe 'distinct on (colonne) colonne' permet de supprimer les doublons d'une seule colonne
-    a.team,
-    n.noc,
-    n.region
-FROM
-    import_athletes AS a,
-    import_noc AS n
-WHERE
-    a.noc = n.noc;
-
-\echo 'Création des contraintes d''unicité et d''intégrité réferentielle pour Equipe...'
-
-ALTER TABLE Equipe
-    ADD CONSTRAINT pk_equipe PRIMARY KEY (nom_equipe);
-
-ALTER TABLE Equipe
-    ADD CONSTRAINT fk_equipe FOREIGN KEY (noc) REFERENCES Region(noc);
+    ADD CONSTRAINT pk_region PRIMARY KEY (noc, nom_equipe);
 
 -----------------
 
@@ -134,7 +109,7 @@ DROP TABLE IF EXISTS Edition CASCADE;
 
 \echo 'Création de la table Edition...'
 
-CREATE TABLE Edition(annee, saison) AS
+CREATE TABLE Edition(annee, saison, ville) AS
 SELECT DISTINCT ON (year, season)
     year,
     season,
@@ -160,15 +135,14 @@ DROP TABLE IF EXISTS Athlete CASCADE;
 
 \echo 'Création de la table Athlete...'
 
-CREATE TABLE Athlete(ano, nom, sexe, age, taille, poids, equipe) AS
+CREATE TABLE Athlete(ano, nom, sexe, age, taille, poids) AS
 SELECT DISTINCT ON (t1.id) -- On supprime les doublons de la colonne id pour arriver au même nobmre d'athlètes que dans la requête renseignée dans 'requetes.sql'
     t1.id,
     t1.name,
     t1.sex,
     t1.age,
     t1.height,
-    t1.weight,
-    t1.team
+    t1.weight
 FROM
     import_athletes AS t1;
 
@@ -180,9 +154,6 @@ ALTER TABLE Athlete
 -- On considère que les 2 genres possibles sont le genre masculin et féminin, on restreint donc cela avec une contrainte 'check' sur le sexe
 ALTER TABLE Athlete
     ADD CONSTRAINT check_sexe CHECK (sexe IN ('M', 'F'));
-
-ALTER TABLE Athlete
-    ADD CONSTRAINT fk_equipe FOREIGN KEY (equipe) REFERENCES Equipe(nom_equipe);
 
 -----------------
 
@@ -214,7 +185,7 @@ LANGUAGE sql; -- On renseigne à PostgreSQL que le langage utilisé est le SQL s
 
 \echo 'Création de la table Epreuve...'
 
-CREATE TABLE Epreuve(evenement, genre, nom_sport) AS
+CREATE TABLE Epreuve(evenement, nom_sport, genre) AS
 SELECT DISTINCT
     -- On appelle trim() à nouveau du au 1er replace()
     trim(
@@ -231,6 +202,8 @@ SELECT DISTINCT
             AS varchar(150)
     )) AS evenement,
 
+    a.sport,
+
     -- On vérifie si le genre est 'Mixed' pour ne pas appeler left(), fonction qui permettra de supprimer les 2 derniers caractères de 'Men''s' et 'Women''s', on ne veut pas ça pour 'Mixed' sinon il renverra 'Mix'
     cast(
             CASE extract_genre_event(trim(overlay(a.event placing '' from 1 for length(a.sport))))
@@ -239,8 +212,7 @@ SELECT DISTINCT
                 ELSE LEFT ( extract_genre_event(trim(overlay(a.event placing '' from 1 for length(a.sport)))),
                             -- On prend toute la taille de la chaine moins les 2 dernieres pour s'arrêter avant ces 2 derniers caractères
                             length(extract_genre_event(trim(overlay(a.event placing '' from 1 for length(a.sport))))) - 2)
-        END AS varchar(10)) AS genre,
-    a.sport
+        END AS varchar(10)) AS genre
 FROM
     import_athletes AS a;
 
@@ -257,8 +229,8 @@ DROP TABLE IF EXISTS participe CASCADE;
 
 \echo 'Création de la table participe...'
 
-CREATE TABLE IF NOT EXISTS participe(ano, evenement, genre, nom_sport, annee, saison, medaille)
-    AS SELECT id, e.evenement, e.genre, e.nom_sport, year, season, medal
+CREATE TABLE IF NOT EXISTS participe(ano, evenement, nom_sport, genre, annee, saison, noc, nom_equipe, medaille)
+    AS SELECT id, e.evenement, e.nom_sport, e.genre, year, season, noc, team, medal
         FROM import_athletes, epreuve as e
         WHERE event = e.nom_sport || ' ' || CASE e.genre
                 WHEN 'Men' then 'Men''s'
@@ -270,7 +242,7 @@ CREATE TABLE IF NOT EXISTS participe(ano, evenement, genre, nom_sport, annee, sa
 
 \echo 'Création des contraintes d''unicité et d''intégrité réferentielle pour participe...'
 
-ALTER TABLE participe ADD CONSTRAINT pk_participe PRIMARY KEY(ano, evenement, genre, nom_sport, annee, saison);
+ALTER TABLE participe ADD CONSTRAINT pk_participe PRIMARY KEY(ano, evenement, nom_sport, genre, annee, saison, noc, nom_equipe);
 ALTER TABLE participe ADD CONSTRAINT fk_athlete FOREIGN KEY(ano) references Athlete(ano);
-ALTER TABLE participe ADD CONSTRAINT fk_epreuve FOREIGN KEY(evenement, genre, nom_sport) references Epreuve(evenement, genre, nom_sport);
+ALTER TABLE participe ADD CONSTRAINT fk_epreuve FOREIGN KEY(evenement, nom_sport, genre) references Epreuve(evenement, nom_sport, genre);
 ALTER TABLE participe ADD CONSTRAINT fk_edition FOREIGN KEY(annee, saison) references Edition(annee, saison);

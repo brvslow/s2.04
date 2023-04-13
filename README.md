@@ -107,10 +107,10 @@ On envisage d’importer les données en créeant une table dans le base Postgre
 
 MCD correspondant:
 
-- Un athlète représente une équipe
-- Une équipe est issue d'une région (composé du code de la région, du nom, info supplémentaire (notes))
-- Un athlète a participé des éditions données pour des épreuves (composé de l'évènement, du genre dédié à l'évenement et du sport associé à l'évènement) donnés dans lesquelles il a éventuellement eu des médailles
-- Ce qui fait au total 6 entités (5 entités dont 2 associations hiérarchiques + 1 association maillée (participe) car c'est une ternaire associant Athlete, Epreuve et Edition)
+Un athlète participe à:
+- 0,N édition(s) (au cours de sa carrière il pourra être amené à participer à plusieurs Jeux Olympiques)
+- Pour 0,N épreuve(s) (l'athlète peut concourir à plusieurs épreuves durant une édition donnée)
+- Pour 0,N région(s) (l'athlète peut décider de représenter un autre pays durant une édition des Jeux Olympiques) 
 
 (*Dans l'entité Epreuve il y a un attribut genre car on décompose l'evenement en [nom_evenement] [genre] [sport]*)
 
@@ -118,17 +118,15 @@ MCD correspondant:
 
 MLD associé:
 
-- Region(<u>**noc**</u>, nom_pays, notes)
+- Region(<u>**noc**</u>, <u>**nom_equipe**</u>, nom_pays, notes)
 
-- Equipe(<u>**nom_equipe**</u>, **#noc**)
+- Athlete(<u>**ano**</u>, nom, sexe, age, taille, poids)
 
-- Athlete(<u>**ano**</u>, nom, sexe, age, taille, poids, **#equipe**)
-
-- Edition(<u>**année**</u>, <u>**saison**</u>, city)
+- Edition(<u>**année**</u>, <u>**saison**</u>, ville)
 
 - Epreuve(<u>**evenement**</u>, <u>**nom_sport**</u>, <u>**genre**</u>)
 
-- participe(<u>**#ano**</u>, <u>**#evenement**</u>, <u>**#nom_sport**</u>, <u>**#genre**</u>, <u>**#annee**</u>, <u>**#saison**</u>, medaille)
+- participe(<u>**#ano**</u>, <u>**#evenement**</u>, <u>**#nom_sport**</u>, <u>**#genre**</u>, <u>**#annee**</u>, <u>**#saison**</u>, <u>**#noc**</u>, <u>**#nom_equipe**</u>, medaille)
 
 > 1. Quelle taille en octet fait le fichier récupéré ?
 
@@ -153,7 +151,7 @@ but1=> SELECT pg_total_relation_size('import_noc');
 
 > 3. Quelle taille en octet fait la somme des tables créées ? 
 
-Taille totale: (98.164736 Mo)
+Taille totale: (106.37 Mo)
 
 ```
 select sum(pg_total_relation_size) / 10^6 as taille_totale
@@ -163,8 +161,6 @@ from (
     SELECT pg_total_relation_size('import_noc')
     union
     SELECT pg_total_relation_size('region')
-    union
-    SELECT pg_total_relation_size('equipe')
     union
     SELECT pg_total_relation_size('athlete')
     union
