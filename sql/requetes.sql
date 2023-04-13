@@ -111,7 +111,25 @@ ORDER BY count(p.medaille) DESC;
 
 -- Q5
 -- Output:
-
+SELECT
+    r.nom_pays,
+    count(p.medaille) AS nb_medaille_Albertville
+FROM
+    athlete AS a,
+    participe AS p,
+    edition AS ed,
+    equipe AS eq,
+    region AS r
+WHERE
+    ed.city = 'Albertville'
+    AND p.medaille IS NOT NULL
+    AND ed.annee = p.annee
+    AND ed.saison = p.saison
+    AND a.equipe = eq.nom_equipe
+    AND eq.noc = r.noc
+    AND a.ano = p.ano
+GROUP BY r.nom_pays
+ORDER BY count(p.medaille) DESC;
 
 -- Q6
 -- Output:
@@ -135,3 +153,10 @@ ORDER BY count(p.medaille) DESC;
 
 -- Q11
 -- Output:
+
+
+
+
+
+
+-- Exercice 6

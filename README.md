@@ -4,7 +4,7 @@
 
 ## Introduction
 
-*Lien du repos git: [github.com/brvslow/s2.04](https://github.com/brvslow/s2.04)*
+*Lien du repos git: [s2.04](https://github.com/brvslow/s2.04)*
 
 *Pour éxécuter correctement le fichier sql '[importation.sql](./sql/importation.sql)', veuillez éxecuter la commande depuis la racine du projet soit:*
 
@@ -124,7 +124,7 @@ MLD associé:
 
 - Athlete(<u>**ano**</u>, nom, sexe, age, taille, poids, **#equipe**)
 
-- Edition(<u>**année**</u>, <u>**saison**</u>, ville)
+- Edition(<u>**année**</u>, <u>**saison**</u>, city)
 
 - Epreuve(<u>**evenement**</u>, <u>**nom_sport**</u>, <u>**genre**</u>)
 
