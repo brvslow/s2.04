@@ -60,7 +60,17 @@ ORDER BY count(*) DESC;
 SELECT
     r.nom_pays,
     count(p.medaille) AS nb_medailles_Or
-FROM>
+FROM
+    participe AS p,
+    athlete AS a,
+    region AS r
+WHERE
+    p.medaille = 'Gold'
+    AND p.ano = a.ano
+    AND p.noc = r.noc
+    AND p.nom_equipe = r.nom_equipe
+GROUP BY r.nom_pays
+ORDER BY count(p.medaille) DESC;
 
 -- Q3
 -- Output:
