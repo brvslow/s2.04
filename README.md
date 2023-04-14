@@ -93,7 +93,7 @@ Désormais, on envisage d’importer les données en créeant une table dans le 
 
 *cf: [sql/importation.sql](./sql/importation.sql), des commentaires ont été fournis pour étoffer nos explications...*
 
-#### Création et remplissage de la table import_athetes
+### Création et remplissage de la table import_athetes
 
 Désormais, nous allons passer aux choses concrètes, en important les données dans le SGBD PostgreSQL...
 
@@ -128,7 +128,7 @@ L'explication de chaque option est détaillée sur le fichier **sql/importation.
 
 Ensuite, nous supprimons quelques données (ici toutes les lignes d'avant 1920 ou faisant référence à une épreuve artistique) comme il nous est indiqué, afin d'obtenir 255.080 lignes.
 
-#### Création et remplissage de la table import_noc
+### Création et remplissage de la table import_noc
 
 Désormais, nous allons faire la même chose pour le fichier **csv/noc_regions.csv**, l'opération ne change pas tant que ça de **csv/athlete.csv**...
 
@@ -205,7 +205,7 @@ Voici le **MLD** associé:
 
 - participe(<u>**#ano**</u>, <u>**#evenement**</u>, <u>**#nom_sport**</u>, <u>**#genre**</u>, <u>**#annee**</u>, <u>**#saison**</u>, <u>**#noc**</u>, <u>**#nom_equipe**</u>, medaille)
 
-### Une question de taille !
+### Une question de taille !
 
 Nous allons maintenant, calculer la taille de certains objets, en commençant par le fichier zip
 
@@ -278,6 +278,7 @@ Dans cette étape, semblable à l'exercice 5, nous allons effectuer nos propres 
 Nous avons choisi comme sport le **Basket-ball** et comme pays les **USA**
 
 ### Requête n°1 : Moyenne d'âge des athletes masculins
+...
 
 ### Requête n°2 :
 ...
@@ -286,3 +287,4 @@ Nous avons choisi comme sport le **Basket-ball** et comme pays les **USA**
 ...
 
 ### Requête n°4 : Athlètes classés par taille du plus petit au plus grand
+...
