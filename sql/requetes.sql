@@ -60,17 +60,7 @@ ORDER BY count(*) DESC;
 SELECT
     r.nom_pays,
     count(p.medaille) AS nb_medailles_Or
-FROM
-    participe AS p,
-    athlete AS a,
-    region AS r
-WHERE
-    p.medaille = 'Gold'
-    AND p.ano = a.ano
-    AND p.noc = r.noc
-    AND p.nom_equipe = r.nom_equipe
-GROUP BY r.nom_pays
-ORDER BY count(p.medaille) DESC;
+FROM>
 
 -- Q3
 -- Output:
@@ -219,16 +209,54 @@ ORDER BY ed.annee ASC;
 
 -- Exercice 6
 --
--- Sport : Basket
+-- Sport : Basketball
 -- Pays : USA
 --
--- Requête n°1 : Liste des pays avec le nombre de villes organisatrices issues de ce pays
+-- Requête n°1 : 
 
 
--- Requête n°2 : Liste des événements féminins se déroulant dans une année paire
+-- Requête n°2 : 
 
 
--- Requête n°3 : Athlètes où le pays organisateur d'une édition est le même que le pays qu'il représente
+-- Requête n°3 : Liste des événements féminins se déroulant dans une année paire
+SELECT DISTINCT ed.annee
+FROM 
+    epreuve AS e,
+    edition AS ed,
+    region AS r,
+    participe AS p
+WHERE
+    r.nom_pays = 'USA'
+    AND e.nom_sport = 'Basketball'
+    AND e.genre = 'Women'
+    AND ed.annee%2 = 0
+    AND r.noc = p.noc
+    AND r.nom_equipe = p.nom_equipe
+    AND e.evenement = p.evenement
+    AND e.nom_sport = p.nom_sport
+    AND e.genre = p.genre
+    AND ed.annee = p.annee
+    AND ed.saison = p.saison
+ORDER BY ed.annee ASC;
 
 
--- Requête n°4 : Athlètes classés du plus petit au plus grand
+-- Requête n°4 : Athlètes classés par taille du plus petit au plus grand
+SELECT
+    a.nom,
+    a.taille
+FROM 
+    athlete AS a,
+    participe AS p,
+    region AS r,
+    epreuve AS e
+WHERE
+    r.nom_pays = 'USA'
+    AND e.nom_sport = 'Basketball'
+    AND a.taille IS NOT NULL
+    AND a.ano = p.ano
+    AND r.noc = p.noc
+    AND r.nom_equipe = p.nom_equipe
+    AND e.evenement = p.evenement
+    AND e.nom_sport = p.nom_sport
+    AND e.genre = p.genre
+ORDER BY a.taille ASC;
