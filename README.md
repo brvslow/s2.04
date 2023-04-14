@@ -91,7 +91,7 @@ Désormais, on envisage d’importer les données en créeant une table dans le 
 
 ## Exercice 2 : Importer les données
 
-*cf: [sql/importation.sql](./sql/importation.sql), des commentaires ont été fournis pour étoffer mes explications...*
+*cf: [sql/importation.sql](./sql/importation.sql), des commentaires ont été fournis pour étoffer nos explications...*
 
 #### Création et remplissage de la table import_athetes
 
@@ -160,7 +160,7 @@ WHERE
             import_noc AS n2);
 ```
 
-Pour terminer il faut vérifier que le script soit idempotent, càd qu'il doit s'éxecuter indéfiniment sans compromettre et causer des erreurs dans le SGBD. Pour cela j'ai ajouté avant l'ajout d'une table cette ligne:
+Pour terminer il faut vérifier que le script soit idempotent, càd qu'il doit s'éxecuter indéfiniment sans compromettre et causer des erreurs dans le SGBD. Pour cela nous avons ajouté avant l'ajout d'une table cette ligne:
 
 ```sql
 DROP TABLE IF EXISTS [table];
