@@ -277,8 +277,7 @@ Dans cette étape, semblable à l'exercice 5, nous allons effectuer nos propres 
 
 Nous avons choisi comme sport le **Basket-ball** et comme pays les **USA**
 
-### Requête n°1 : 
-...
+### Requête n°1 : Moyenne d'âge des athletes masculins
 
 ### Requête n°2 :
 ...

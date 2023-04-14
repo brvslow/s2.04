@@ -134,7 +134,7 @@ WHERE
     AND r.nom_pays = 'France';
 
 -- Q7
--- Output:
+
 -- Même requête que la Q6
 
 -- Q8
@@ -209,11 +209,30 @@ ORDER BY ed.annee ASC;
 -- Sport : Basketball
 -- Pays : USA
 --
--- Requête n°1 : 
+-- Requête n°1 : Moyenne d'âge des athletes masculins
+SELECT avg(a.age) AS Moyenne_age
+FROM
+    athlete AS a,
+    epreuve AS e,
+    region AS r,
+    participe AS p
+WHERE
+    r.nom_pays = 'USA'
+    AND e.nom_sport = 'Basketball'
+    AND a.sexe = 'M'
+    AND e.genre = 'Men'
+    AND a.ano = p.ano
+    AND e.evenement = p.evenement
+    AND e.nom_sport = p .nom_sport
+    AND e.genre = p.genre
+    AND r.noc = p.noc
+    AND r.nom_equipe = p.nom_equipe;
 
 -- Requête n°2 : 
 
+
 -- Requête n°3 :
+
 
 -- Requête n°4 : Athlètes classés par taille du plus petit au plus grand
 SELECT
