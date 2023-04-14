@@ -1,4 +1,4 @@
-# s2.04 - Exploitation BDD
+# s2.04 - Exploitation de BDD
 
 <img src="images/Logo-IUT-de-Lille_2022.png" width="200" align="right">
 
