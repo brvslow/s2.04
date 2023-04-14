@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS import_athletes;
 \echo 'Création de la table import_athletes...'
 
 -- L'option "if not exists" permet de ne pas recréer la table si elle existe déjà.
-CREATE TABLE  import_athletes(
+CREATE TABLE import_athletes(
     id int,
     name varchar(500),
     sex char(1), -- on aurait pu ajouter une contrainte check ici, mais on a décidé de le faire uniquement dans la table ventilée asociée

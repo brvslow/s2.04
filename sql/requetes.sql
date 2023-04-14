@@ -14,7 +14,7 @@ SELECT count(*)
 FROM import_athletes;
 
 -- Q3
--- Output: 230
+-- Output: 231 (avec l'ajout de Singapour)
 SELECT count(noc)
 FROM import_noc;
 
@@ -27,7 +27,7 @@ FROM import_athletes;
 -- Output: 12116
 SELECT count(medal)
 FROM import_athletes
-WHEREn medal = 'Gold';
+WHERE medal = 'Gold';
 
 -- Q6
 -- Output: 2
@@ -35,12 +35,9 @@ SELECT count(*)
 FROM import_athletes
 WHERE name LIKE 'Carl Lewis%';
 
-
-
 -- Exercice 5
 --
 -- Q1
--- Output:
 SELECT
     r.nom_pays,
     count(*) AS nb_participations
@@ -56,7 +53,6 @@ GROUP BY r.nom_pays
 ORDER BY count(*) DESC;
 
 -- Q2
--- Output:
 SELECT
     r.nom_pays,
     count(p.medaille) AS nb_medailles_Or
@@ -73,7 +69,6 @@ GROUP BY r.nom_pays
 ORDER BY count(p.medaille) DESC;
 
 -- Q3
--- Output:
 SELECT
     r.nom_pays,
     count(p.medaille) AS nb_medailles_pays
@@ -90,7 +85,6 @@ GROUP BY r.nom_pays
 ORDER BY count(p.medaille) DESC;
 
 -- Q4
--- Output:
 SELECT
     a.ano,
     a.nom,
@@ -106,7 +100,6 @@ ORDER BY
     count(p.medaille) DESC;
 
 -- Q5
--- Output:
 SELECT
     r.nom_pays,
     count(p.medaille) AS nb_medailles_Albertville
@@ -127,7 +120,6 @@ GROUP BY r.nom_pays
 ORDER BY count(p.medaille) DESC;
 
 -- Q6
--- Output:
 SELECT DISTINCT p.ano
 FROM
     participe AS p,
@@ -144,8 +136,8 @@ WHERE
 -- Q7
 -- Output:
 -- Même requête que la Q6
+
 -- Q8
--- Output:
 SELECT
     a.age,
     count(p.medaille) nb_medailles_Or
@@ -159,7 +151,6 @@ GROUP BY a.age
 ORDER BY count(p.medaille) DESC;
 
 -- Q9
--- Output:
 SELECT
     e.nom_sport,
     count(p.medaille) AS nb_médailles_plus_de_50ans
@@ -177,7 +168,6 @@ GROUP BY e.nom_sport
 ORDER BY count(p.medaille) DESC;
 
 -- Q10
--- Output:
 SELECT
     ed.annee,
     ed.saison,
@@ -198,7 +188,6 @@ GROUP BY
 ORDER BY ed.annee ASC;
 
 -- Q11
--- Output:
 SELECT
     ed.annee,
     count(p.medaille) AS nb_médailles_femme_en_été
@@ -215,8 +204,6 @@ WHERE
 GROUP BY ed.annee
 ORDER BY ed.annee ASC;
 
-
-
 -- Exercice 6
 --
 -- Sport : Basketball
@@ -224,31 +211,9 @@ ORDER BY ed.annee ASC;
 --
 -- Requête n°1 : 
 
-
 -- Requête n°2 : 
 
-
--- Requête n°3 : Liste des événements féminins se déroulant dans une année paire
-SELECT DISTINCT ed.annee
-FROM 
-    epreuve AS e,
-    edition AS ed,
-    region AS r,
-    participe AS p
-WHERE
-    r.nom_pays = 'USA'
-    AND e.nom_sport = 'Basketball'
-    AND e.genre = 'Women'
-    AND ed.annee%2 = 0
-    AND r.noc = p.noc
-    AND r.nom_equipe = p.nom_equipe
-    AND e.evenement = p.evenement
-    AND e.nom_sport = p.nom_sport
-    AND e.genre = p.genre
-    AND ed.annee = p.annee
-    AND ed.saison = p.saison
-ORDER BY ed.annee ASC;
-
+-- Requête n°3 :
 
 -- Requête n°4 : Athlètes classés par taille du plus petit au plus grand
 SELECT
