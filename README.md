@@ -265,7 +265,7 @@ COPY epreuve TO 'epreuve.csv'  WITH DELIMITER ',' CSV HEADER;
 COPY participe TO 'participe.csv'  WITH DELIMITER ',' CSV HEADER;
 ```
 
-## Exercice 5 : Requêtage
+## Exercice 5 : Requêtage
 
 Désormais, nous allons passer au requêtage pour tester le bon fonctionnement de la conception de la base...
 
