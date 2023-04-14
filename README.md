@@ -1,4 +1,4 @@
-# s2.04 - Exploitation BDD
+# s2.04 - Exploitation de BDD
 
 <img src="images/Logo-IUT-de-Lille_2022.png" width="200" align="right">
 
@@ -91,7 +91,7 @@ Désormais, on envisage d’importer les données en créeant une table dans le 
 
 ## Exercice 2 : Importer les données
 
-*cf: [sql/importation.sql](./sql/importation.sql), des commentaires ont été fournis pour étoffer mes explications...*
+*cf: [sql/importation.sql](./sql/importation.sql), des commentaires ont été fournis pour étoffer nos explications...*
 
 #### Création et remplissage de la table import_athetes
 
@@ -160,7 +160,7 @@ WHERE
             import_noc AS n2);
 ```
 
-Pour terminer il faut vérifier que le script soit idempotent, càd qu'il doit s'éxecuter indéfiniment sans compromettre et causer des erreurs dans le SGBD. Pour cela j'ai ajouté avant l'ajout d'une table cette ligne:
+Pour terminer il faut vérifier que le script soit idempotent, càd qu'il doit s'éxecuter indéfiniment sans compromettre et causer des erreurs dans le SGBD. Pour cela nous avons ajouté avant l'ajout d'une table cette ligne:
 
 ```sql
 DROP TABLE IF EXISTS [table];
@@ -265,7 +265,7 @@ COPY epreuve TO 'epreuve.csv'  WITH DELIMITER ',' CSV HEADER;
 COPY participe TO 'participe.csv'  WITH DELIMITER ',' CSV HEADER;
 ```
 
-## Exercice 5 : Requêtage
+## Exercice 5 : Requêtage
 
 Désormais, nous allons passer au requêtage pour tester le bon fonctionnement de la conception de la base...
 
