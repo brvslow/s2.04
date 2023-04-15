@@ -1,5 +1,6 @@
 -- Exercice 3
 --
+
 -- Q1
 -- Output: 15
 SELECT count(*)
@@ -37,17 +38,16 @@ WHERE name LIKE 'Carl Lewis%';
 
 -- Exercice 5
 --
+
 -- Q1
 SELECT
     r.nom_pays,
     count(*) AS nb_participations
 FROM
     participe AS p,
-    athlete AS a,
     region AS r
 WHERE
-    p.ano = a.ano
-    AND r.noc = p.noc
+    r.noc = p.noc
     AND p.nom_equipe = r.nom_equipe
 GROUP BY r.nom_pays
 ORDER BY count(*) DESC;
@@ -58,11 +58,9 @@ SELECT
     count(p.medaille) AS nb_medailles_Or
 FROM
     participe AS p,
-    athlete AS a,
     region AS r
 WHERE
     p.medaille = 'Gold'
-    AND p.ano = a.ano
     AND p.noc = r.noc
     AND p.nom_equipe = r.nom_equipe
 GROUP BY r.nom_pays
@@ -74,11 +72,9 @@ SELECT
     count(p.medaille) AS nb_medailles_pays
 FROM
     participe AS p,
-    athlete AS a,
     region AS r
 WHERE
     p.medaille IS NOT NULL
-    AND p.ano = a.ano
     AND p.noc = r.noc
     AND p.nom_equipe = r.nom_equipe
 GROUP BY r.nom_pays
@@ -104,7 +100,6 @@ SELECT
     r.nom_pays,
     count(p.medaille) AS nb_medailles_Albertville
 FROM
-    athlete AS a,
     participe AS p,
     edition AS e,
     region AS r
@@ -115,7 +110,6 @@ WHERE
     AND e.saison = p.saison
     AND p.noc = r.noc
     AND p.nom_equipe = r.nom_equipe
-    AND a.ano = p.ano
 GROUP BY r.nom_pays
 ORDER BY count(p.medaille) DESC;
 
@@ -134,7 +128,6 @@ WHERE
     AND r.nom_pays = 'France';
 
 -- Q7
-
 -- Même requête que la Q6
 
 -- Q8
@@ -209,6 +202,7 @@ ORDER BY ed.annee ASC;
 -- Sport : Basketball
 -- Pays : USA
 --
+
 -- Requête n°1 : Moyenne d'âge des athletes masculins
 SELECT avg(a.age) AS Moyenne_age
 FROM
@@ -220,37 +214,76 @@ WHERE
     r.nom_pays = 'USA'
     AND e.nom_sport = 'Basketball'
     AND a.sexe = 'M'
-    AND e.genre = 'Men'
     AND a.ano = p.ano
     AND e.evenement = p.evenement
-    AND e.nom_sport = p .nom_sport
+    AND e.nom_sport = p.nom_sport
     AND e.genre = p.genre
     AND r.noc = p.noc
     AND r.nom_equipe = p.nom_equipe;
 
--- Requête n°2 : 
+-- Requête n°2 : Athlètes ayant participé au moins 3 fois à une édition
+SELECT a.ano, a.nom, count(*)
+FROM
+    athlete AS a,
+    epreuve AS e,
+    region AS r,
+    participe AS p,
+    edition as ed
+WHERE
+    r.nom_pays = 'USA'
+    AND e.nom_sport = 'Basketball'
+    AND a.ano = p.ano
+    AND e.evenement = p.evenement
+    AND e.nom_sport = p.nom_sport
+    AND e.genre = p.genre
+    AND r.noc = p.noc
+    AND r.nom_equipe = p.nom_equipe
+    AND ed.annee = p.annee
+    AND ed.saison = p.saison
+GROUP BY a.ano, a.nom
+HAVING count(*) >= 3;
 
-
--- Requête n°3 :
-
+-- Requête n°3 : Athlètes qui ont participé à 3 éditions d'affilé
+SELECT a.nom, ed.annee, ed2.annee, ed3.annee
+FROM
+    athlete AS a,
+    epreuve AS e,
+    region AS r,
+    participe AS p,
+    edition AS ed,
+    edition AS ed2,
+    edition AS ed3
+WHERE
+    r.nom_pays = 'USA'
+    AND e.nom_sport = 'Basketball'
+    AND a.ano = p.ano
+    AND e.evenement = p.evenement
+    AND e.nom_sport = p.nom_sport
+    AND e.genre = p.genre
+    AND r.noc = p.noc
+    AND r.nom_equipe = p.nom_equipe
+    AND ed.annee = p.annee
+    AND ed.saison = p.saison
+    AND ed2.annee = ed.annee+4
+    AND ed2.saison = p.saison
+    AND ed3.annee = ed2.annee+4
+    AND ed3.saison = p.saison;
 
 -- Requête n°4 : Athlètes classés par taille du plus petit au plus grand
 SELECT
     a.nom,
     a.taille
-FROM 
-    athlete AS a,
-    participe AS p,
-    region AS r,
-    epreuve AS e
-WHERE
-    r.nom_pays = 'USA'
-    AND e.nom_sport = 'Basketball'
-    AND a.taille IS NOT NULL
-    AND a.ano = p.ano
-    AND r.noc = p.noc
-    AND r.nom_equipe = p.nom_equipe
-    AND e.evenement = p.evenement
-    AND e.nom_sport = p.nom_sport
-    AND e.genre = p.genre
+FROM
+    athlete AS a
+    JOIN participe AS p
+        ON a.ano = p.ano
+    JOIN region AS r
+        ON r.noc = p.noc AND r.nom_equipe = p.nom_equipe
+    JOIN epreuve AS e
+        ON e.evenement = p.evenement
+           AND e.nom_sport = p.nom_sport
+           AND e.genre = p.genre
+WHERE r.nom_pays = 'USA'
+      AND e.nom_sport = 'Basketball'
+      AND a.taille IS NOT NULL
 ORDER BY a.taille ASC;

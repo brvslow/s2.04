@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS import_athletes;
 CREATE TABLE import_athletes(
     id int,
     name varchar(500),
-    sex char(1), -- on aurait pu ajouter une contrainte check ici, mais on a décidé de le faire uniquement dans la table ventilée asociée
+    sex char(1), -- On aurait pu ajouter une contrainte check ici, mais on a décidé de le faire uniquement dans la table ventilée asociée
     age int,
     height int,
     weight numeric(5, 2),
@@ -28,11 +28,11 @@ CREATE TABLE import_athletes(
 \echo 'Remplissage de la table import_athletes via le fichier csv athletes_events.csv...'
 
 -- On importe les données du CSV dans la table import_athletes avec quelques options:
---  On précise le format CSV:
---      - Le paramètre 'header' permet de ne pas copier la première ligne du CSV (ligne des colonnes)
---      - Le paramètre 'quote' permet de prendre en considération les guillemets dans chaque colonne dans les lignes du CSV, utile pour interpréter l'id comme un entier
---      - Le paramètre 'delimiter' détermine avec quel caractère on délimite chaque colonne
---      - Le paramètre 'null as' permet de prendre en charge les valeurs nulles pour éviter les problèmes de type (ici representé par 'NA')
+--  On précise le format CSV (with csv) avec:
+--      - le paramètre 'header' qui permet de ne pas copier la première ligne du CSV (ligne des colonnes)
+--      - le paramètre 'quote' qui permet de prendre en considération les guillemets dans chaque colonne dans les lignes du CSV, utile pour interpréter l'id comme un entier
+--      - le paramètre 'delimiter' qui détermine avec quel caractère on délimite chaque colonne
+--      - le paramètre 'null as' qui permet de prendre en charge les valeurs nulles pour éviter les problèmes de type (ici representé par 'NA')
 \copy import_athletes from 'csv/athlete_events.csv' with csv header quote '"' delimiter ',' null as 'NA';
 
 -- Q3
@@ -46,6 +46,7 @@ WHERE year < 1920
 DROP TABLE IF EXISTS import_noc;
 
 \echo 'Création de la table import_noc'
+
 CREATE TABLE IF NOT EXISTS import_noc(
     noc char(3),
     region varchar(50),
@@ -58,6 +59,7 @@ CREATE TABLE IF NOT EXISTS import_noc(
 
 -- Ajout des pays manquants dans 'import_noc'
 \echo 'Ajout des pays manquants dans import_noc...'
+
 INSERT INTO import_noc SELECT DISTINCT
     a.noc,
     NULL AS region,
@@ -187,15 +189,16 @@ LANGUAGE sql; -- On renseigne à PostgreSQL que le langage utilisé est le SQL s
 
 CREATE TABLE Epreuve(evenement, nom_sport, genre) AS
 SELECT DISTINCT
-    -- On appelle trim() à nouveau du au 1er replace()
+    -- On appelle trim() du au replace quelques lignes après, qui peut laisser certains espaces car supprime le mot mais pas les espaces autour
     trim(
         -- On cast explicitement la fonction en varchar(150) car la fonction retourne une chaîne de type text (retourner un varchar(150) dans la fonction extract_genre_event() ne fonctionne pas)
         cast(
             -- On supprime le genre de l'evenement
             replace(
-                -- On supprime le sport de l'evenement
+                -- On supprime le sport de l'evenement (overlay([colonne] placing [str] from [index_start] for [index_end]) -> syntaxe non normalisée, utilisé sur PostgreSQL)
+                -- Ici, on aurait pu utiliser replace à la place overlay mais nous avons décidé d'utiliser cette fonction pour ne pas supprimer toutes les occurences d'une chaine (si le nom du sport se trouve plusieurs fois dans l'évènement)
                 overlay(a.event placing '' from 1 for length(a.sport)),
-                -- On supprime les espaces autour avec trim() après du à l'éxecution de la fonction replace
+                -- On supprime les espaces autour avec trim() du à l'éxecution de la fonction overlay
                 extract_genre_event(trim(overlay(a.event placing '' from 1 for length(a.sport)))),
                 ''
             )
@@ -237,7 +240,7 @@ CREATE TABLE IF NOT EXISTS participe(ano, evenement, nom_sport, genre, annee, sa
                 WHEN 'Women' then 'Women''s'
                 ELSE 'Mixed'
             END || ' ' || case
-                WHEN e.evenement = '' then e.nom_sport
+                WHEN e.evenement = '' then e.nom_sport -- Si le nom de l'évènement est nul, on considère selon le CSV que le nom de l'évènement est le nom du sport
                 ELSE e.evenement end;
 
 \echo 'Création des contraintes d''unicité et d''intégrité réferentielle pour participe...'
