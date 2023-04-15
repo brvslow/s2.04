@@ -1,6 +1,6 @@
 # s2.04 - Exploitation de BDD
 
-<img src="images/Logo-IUT-de-Lille_2022.png" width="200" align="right">
+<img src="images/logo.png" width="200" align="right">
 
 ## Introduction
 
@@ -20,9 +20,10 @@ Le fichier 'metadata.yml' inclut les données au-delà du fichier Markdown:
 
 - Le titre du document
 - Les noms des auteurs
+- Et plusieurs variables LaTeX pour configurer la page d'en-tête
 
 ```
-pandoc --toc --metadata-file metadata.yml --template=template/eisvogel.tex -t pdf -f markdown README.md -o README.pdf
+pandoc --toc --template=template/eisvogel.tex metadata.yml README.md -o README.pdf
 ```
 
 ## Exercice 1 : Comprendre les données

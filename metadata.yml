@@ -2,4 +2,9 @@
 title: Rapport de la SaÉ 2.04
 author: [Wasson Baptiste, Aoulad-Tayab Karim]
 fontsize: 8pt
+titlepage: true
+toc-own-page: true
+titlepage-text-color: 000000
+titlepage-logo: images/logo.png
+titlepage-background: images/background.png
 ---
