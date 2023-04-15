@@ -183,14 +183,17 @@ Pour cela nous allons concevoir d'abord un MCD viable permettant de représenter
 
 Voici le **MCD** correspondant:
 
+![MCD du sujet](mcd/mcd.png)
+
 Un athlète participe à:
+
 - 0,N édition(s) (au cours de sa carrière il pourra être amené à participer à plusieurs Jeux Olympiques)
+
 - Pour 0,N épreuve(s) (l'athlète peut concourir à plusieurs épreuves durant une édition donnée)
+
 - Pour 0,N région(s) (l'athlète peut décider de représenter un autre pays durant une édition des Jeux Olympiques) 
 
 (*Dans l'entité Epreuve il y a un attribut genre car on décompose l'evenement en [nom_evenement] [genre] [sport]*)
-
-![MCD du sujet](mcd/mcd.png)
 
 Voici le **MLD** associé:
 
@@ -332,7 +335,7 @@ WHERE
     AND r.nom_equipe = p.nom_equipe;
 ```
 
-![Aperçu de la requête 1](images/exo6/exemple1.png)
+![Aperçu de la requête 1](images/exo6/exemple1.png){width=300}
 
 ### Requête n°2 : Athlètes ayant participté au moins 3 fois à une édition
 
@@ -368,7 +371,7 @@ GROUP BY a.ano, a.nom
 HAVING count(*) >= 3;
 ```
 
-![Aperçu de la requête 2](images/exo6/exemple2.png)
+![Aperçu de la requête 2](images/exo6/exemple2.png){width=300}
 
 ### Requête n°3 : Athlètes qui ont participé à 3 éditions d'affilé
 
@@ -412,7 +415,7 @@ WHERE
     AND ed3.saison = p.saison;
 ```
 
-![Aperçu de la requête 3](images/exo6/exemple3.png)
+![Aperçu de la requête 3](images/exo6/exemple3.png){width=300}
 
 ### Requête n°4 : Athlètes classés par taille du plus petit au plus grand
 
@@ -443,4 +446,4 @@ WHERE r.nom_pays = 'USA'
 ORDER BY a.taille ASC;
 ```
 
-![Aperçu de la requête 4](images/exo6/exemple4.png)
+![Aperçu de la requête 4](images/exo6/exemple4.png){width=300}
