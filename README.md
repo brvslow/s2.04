@@ -8,6 +8,8 @@
 
 *Pour éxécuter correctement le fichier sql '[importation.sql](./sql/importation.sql)', veuillez éxecuter la commande depuis la racine du projet soit:*
 
+> Si le nombre de pages dépasse ceux attendus par le sujet, c'est essentiellement dû aux captures d'écrans qui prennent une certaine place, sans compter la page de garde et la page de la table de matières.
+
 ```
 but1=> \i sql/importation.sql
 ```
@@ -20,7 +22,7 @@ Le fichier 'metadata.yml' inclut les données au-delà du fichier Markdown:
 
 - Le titre du document
 - Les noms des auteurs
-- Et plusieurs variables LaTeX pour configurer la page d'en-tête
+- Et plusieurs variables LaTeX pour configurer la page de garde
 
 ```
 pandoc --toc --template=template/eisvogel.tex metadata.yml README.md -o Rapport.pdf
