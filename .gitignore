@@ -1,5 +1,7 @@
 # Tous les fichiers pdf
 *.pdf
+# exepté le sujet de bdd
+!SAe_S2_sujet_olympique.pdf
 # exceptés ceux dans le dossier gestion, anglais, stat
 !gestion/*.pdf
 !anglais/*.pdf

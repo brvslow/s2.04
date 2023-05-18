@@ -25,7 +25,7 @@ Le fichier 'metadata.yml' inclut les données au-delà du fichier Markdown:
 - Et plusieurs variables LaTeX pour configurer la page de garde
 
 ```
-pandoc --toc --template=template/eisvogel.tex metadata.yml README.md -o Rapport.pdf
+pandoc --toc --metadata-file=metadata.yml --template=template/eisvogel.tex README.md -o Rapport.pdf
 ```
 
 ## Exercice 1 : Comprendre les données
