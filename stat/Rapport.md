@@ -386,9 +386,9 @@ where p.annee >= 1992 and p.annee <= 2016 and p.noc = 'NOC' and p.saison = 'Seas
 group by p.annee;
 ```
 
-![Question 3b1-hiver](../images/stat/question-3b1-hiver.png){width=250, height=250}
-
-![Question 3b1-été](../images/stat/question-3b1-été.png){width=250, height=250}
+Question 3b1-hiver                                                                  | Question 3b1-été
+:----------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------:
+![Question 3b1-hiver](../images/stat/question-3b1-hiver.png){width=170, height=170} | ![Question 3b1-été](../images/stat/question-3b1-été.png){width=170, height=170}
 
 Tout d'abord, on observe que l'Allemagne est le pays le plus représenté dans les deux types de Jeux. Cela peut être attribué à plusieurs facteurs, notamment la tradition sportive et la volonté d'investir dans les disciplines olympiques. Ensuite, la France se positionne également parmi les pays avec une forte participation, ce qui peut être attribué à son héritage sportif. On peut également noter que la participation de l'Espagne est relativement faible dans les deux types de Jeux, ce qui peut être dû à des raisons telles que la moindre popularité des sports d'hiver dans le pays contrairement à la Suède qui est un pays nordique, le nombre de participants d'hiver sera donc plus conséquent.
 
@@ -403,9 +403,9 @@ where p.annee >= 1992 and p.annee <= 2016 and p.noc = 'NOC' and p.saison = 'Seas
 group by p.annee;
 ```
 
-![Question 3b2-hiver](../images/stat/question-3b2-hiver.png){width=250, height=250}
-
-![Question 3b2-été](../images/stat/question-3b2-été.png){width=250, height=250}
+Question 3b2-hiver                                                                  | Question 3b2-été
+:----------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------:
+![Question 3b2-hiver](../images/stat/question-3b2-hiver.png){width=170, height=170} | ![Question 3b2-été](../images/stat/question-3b2-été.png){width=170, height=170}
 
 On observe que l'Allemagne (GER) se distingue comme le pays avec le plus grand nombre de médailles dans les deux types de Jeux. Ce qui est logique puisque il y a une domination du nombre de participants. La France (FRA) est également un acteur solide avec un nombre de médailles significatif dans les deux catégories. La Suède (SWE) a également obtenu un nombre notable de médailles, en particulier aux Jeux Olympiques d'hiver. En revanche, le Japon (JPN) et l'Espagne (ESP) ont un nombre de médailles relativement plus faible. Ces variations peuvent être liées à des facteurs tels que les politiques de soutien au sport, les traditions sportives et les ressources allouées au développement des athlètes.
 
@@ -420,9 +420,9 @@ where a.ano = p.ano and a.sexe = 'F' and p.annee >= 1992 and p.annee <= 2016 and
 group by p.annee;
 ```
 
-![Question 3b3-hiver](../images/stat/question-3b3-hiver.png){width=250, height=250}
-
-![Question 3b3-été](../images/stat/question-3b3-été.png){width=250, height=250}
+Question 3b3-hiver                                                                  | Question 3b3-été
+:----------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------:
+![Question 3b3-hiver](../images/stat/question-3b3-hiver.png){width=170, height=170} | ![Question 3b3-été](../images/stat/question-3b3-été.png){width=170, height=170}
 
 On remarque une domination du nombre de participantes allemandes. Les Allemandes sont toujours les plus nombreuses aussi bien en hiver qu'en été. On voit une forte augmentation du nombre de femmes suédoises en 1998 aux JO de Nagano.
 
@@ -436,9 +436,9 @@ Pour les Jeux Olympiques d'été, les mêmes pays, à savoir l'Allemagne (GER), 
 
 > La proportion de femmes participantes est caclulé dynamiquement sur le tableur.
 
-![Question 3b4-hiver](../images/stat/question-3b4-hiver.png){width=250, height=250}
-
-![Question 3b4-été](../images/stat/question-3b4-été.png){width=250, height=250}
+Question 3b4-hiver                                                                  | Question 3b4-été
+:----------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------:
+![Question 3b4-hiver](../images/stat/question-3b4-hiver.png){width=170, height=170} | ![Question 3b4-été](../images/stat/question-3b4-été.png){width=170, height=170}
 
 Pour les Jeux Olympiques d'hiver, on constate une augmentation progressive de la proportion de femmes participantes au fil des années dans la plupart des pays. L'Espagne (ESP) présente une proportion relativement élevée de femmes participantes dès le départ, tandis que les autres pays affichent des pourcentages plus modestes mais en augmentation régulière.
 
@@ -457,9 +457,9 @@ group by p.annee;
 
 > La proportion des médaillées parmi les femmes est caclulé dynamiquement sur le tableur.
 
-![Question 3b5-hiver](../images/stat/question-3b5-hiver.png){width=250, height=250}
-
-![Question 3b5-été](../images/stat/question-3b5-été.png){width=250, height=250}
+Question 3b5-hiver                                                                  | Question 3b5-été
+:----------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------:
+![Question 3b5-hiver](../images/stat/question-3b5-hiver.png){width=170, height=170} | ![Question 3b5-été](../images/stat/question-3b5-été.png){width=140, height=170}
 
 Pour les Jeux Olympiques d'hiver, la proportion de médaillées parmi les femmes est relativement faible pour la plupart des pays. La Suède (SWE) présente les proportions les plus élevées de médaillées parmi les femmes, tandis que les autres pays affichent des pourcentages plus faibles.
 
@@ -471,9 +471,9 @@ Pour les Jeux Olympiques d'été, on observe une plus grande variation dans les 
 
 > La proportion de femmes parmi les médaillés est calculé dynamiquement sur le tableur.
 
-![Question 3b6-hiver](../images/stat/question-3b6-hiver.png){width=250, height=250}
-
-![Question 3b6-été](../images/stat/question-3b6-été.png){width=250, height=250}
+Question 3b6-hiver                                                                  | Question 3b6-été
+:----------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------:
+![Question 3b6-hiver](../images/stat/question-3b6-hiver.png){width=170, height=170} | ![Question 3b6-été](../images/stat/question-3b6-été.png){width=170, height=170}
 
 Pour les Jeux Olympiques d'hiver, la proportion de femmes parmi les médaillés varie d'une année à l'autre et d'un pays à l'autre. En général, les pays présentent des pourcentages assez élevés de femmes parmi les médaillés, ce qui suggère une représentation relativement équilibrée entre les genres lors de l'obtention de médailles. Cependant, il convient de noter que l'Espagne (ESP) n'a pas obtenu de médailles lors des Jeux d'hiver étudiés.
 
